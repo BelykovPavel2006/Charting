@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Графики</title>
+	<link rel="stylesheet" href="style_and_script.css">
+	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+</head>
+<body>
+	<div class="content">
+		<header class="heading">
+			<h2>Построение графиков функций CSS</h2>
+		</header>
+		<div class="tasks">
+			<h3>График функции.</h3>
+
+			<canvas id="myChart"></canvas>
+<script>
+    var ctx = document.getElementById('myChart').getContext('2d');
+    var xValues = [];
+    var yValues = [];
+
+    for (var x = -10; x <= 5; x += 0.5) {
+        xValues.push(x);
+        yValues.push(Math.abs(x ** 2 + 5 * x - 10));
+    }
+
+    var myChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: xValues,
+            datasets: [{
+                label: 'y = |x^2 + 5x - 10|',
+                data: yValues,
+                borderWidth: 1,
+                fill: false,
+                borderColor: 'rgb(75, 192, 192)',
+                tension: 0.1
+            }]
+        },
+        options: {
+            scales: {
+                x: {
+                    type: 'linear',
+                    position: 'bottom'
+                },
+                y: {
+                    type: 'linear',
+                    position: 'left'
+                }
+            }
+        }
+    });
+</script>
+		</div>
+		<div class="tasks">
+			<h3>График функции.</h3>
+			<div class="graph"></div>
+			<script>
+document.addEventListener('DOMContentLoaded', function() {
+const graph = document.querySelector('.graph');
+
+for (let x = -1; x <= 1; x += 0.01) {
+let y = 1 - x**2;
+let point = document.createElement('div');
+point.className = 'point';
+point.style.left = `${250 + x * 100}px`;
+point.style.top = `${250 - y * 100}px`;
+graph.appendChild(point);
+}
+
+for (let x = -1.5; x <= -1; x += 0.01) {
+let y = Math.abs(x) - 1;
+let point = document.createElement('div');
+point.className = 'point';
+point.style.left = `${250 + x * 100}px`;
+point.style.top = `${250 - y * 100}px`;
+graph.appendChild(point);
+}
+
+for (let x = 1; x <= 3; x += 0.01) {
+let y = Math.abs(x) - 1;
+let point = document.createElement('div');
+point.className = 'point';
+point.style.left = `${250 + x * 100}px`;
+point.style.top = `${250 - y * 100}px`;
+graph.appendChild(point);
+}
+});
+</script>
+		</div>
+
+		<div class="tasks">
+			<h3>График функции.</h3>
+			<canvas id="paraboloidChart"></canvas>
+    <script>
+        // Получаем ссылку на элемент canvas
+        var ctx = document.getElementById('paraboloidChart').getContext('2d');
+
+        // Определяем функцию, описывающую поверхность
+        function surface(x, y) {
+            return x * x + y * y; // z = x^2 + y^2
+        }
+
+        // Создаем массивы для данных x, y и z
+        var xData = [];
+        var yData = [];
+        var zData = [];
+
+        // Заполняем массивы данными
+        for (var x = -3; x <= 3; x += 0.5) {
+            for (var y = -3; y <= 3; y += 0.5) {
+                xData.push(x);
+                yData.push(y);
+                zData.push(surface(x, y));
+            }
+        }
+
+        // Создаем новый график
+        var paraboloidChart = new Chart(ctx, {
+            type: 'scatter',
+            data: {
+                datasets: [
+                    {
+                        label: 'Параболоид вращения z = x^2 + y^2',
+                        data: xData.map((value, index) => ({x: value, y: yData[index], z: zData[index]})),
+                        backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                        borderColor: 'rgba(255, 99, 132, 1)',
+                        pointRadius: 3,
+                        pointHoverRadius: 5,
+                    }
+                ]
+            },
+            options: {
+                scales: {
+                    x: {
+                        type: 'linear',
+                        position: 'bottom'
+                    },
+                    y: {
+                        type: 'linear',
+                        position: 'left'
+                    },
+                    z: {
+                        type: 'linear',
+                        position: 'bottom'
+                    }
+                }
+            }
+        });
+    </script>
+			
+		</div>
+		<div class="tasks">
+			<h3>График функции.</h3>
+			<canvas id="myChart1" ></canvas>
+    <script>
+        // Получаем ссылку на элемент canvas
+        var ctx = document.getElementById('myChart1').getContext('2d');
+        
+        // Определяем функцию, график которой мы хотим построить
+        function f(x, y) {
+            return x * y; // Обезьянье седло: произведение координат
+        }
+        
+        // Создаем массивы для данных x, y и z
+        var xData = [];
+        var yData = [];
+        var zData = [];
+        
+        // Заполняем массивы данными
+        for (var x = -3; x <= 3; x += 0.5) {
+            for (var y = -3; y <= 3; y += 0.5) {
+                xData.push(x);
+                yData.push(y);
+                zData.push(f(x, y));
+            }
+        }
+        
+        // Создаем новый график
+        var myChart = new Chart(ctx, {
+            type: 'scatter',
+            data: {
+                datasets: [{
+                    label: 'Обезьянье седло',
+                    data: xData.map((value, index) => ({x: value, y: yData[index], z: zData[index]})),
+                    backgroundColor: function(context) {
+                        var value = context.dataset.data[context.dataIndex].z;
+                        return value < 0 ? 'rgba(255, 99, 132, 0.2)' : 'rgba(54, 162, 235, 0.2)';
+                    },
+                    borderColor: function(context) {
+                        var value = context.dataset.data[context.dataIndex].z;
+                        return value < 0 ? 'rgba(255, 99, 132, 1)' : 'rgba(54, 162, 235, 1)';
+                    },
+                    pointRadius: 5,
+                    pointHoverRadius: 8,
+                }]
+            },
+            options: {
+                scales: {
+                    x: {
+                        type: 'linear',
+                        position: 'bottom'
+                    },
+                    y: {
+                        type: 'linear',
+                        position: 'left'
+                    }
+                }
+            }
+        });
+    </script>
+		</div>
+		<div class="tasks">
+			<h3>График функции.</h3>
+			<canvas id="chart1" ></canvas>
+    <canvas id="chart2" ></canvas>
+    <script>
+        // Функция y = cos(x^2) - 2
+        function f1(x) {
+            return Math.cos(x * x) - 2;
+        }
+        
+        // Функция y = |x^3 + x - 10|
+        function f2(x) {
+            return Math.abs(x * x * x + x - 10);
+        }
+        
+        // Создаем массивы для данных x и y
+        var xData1 = [];
+        var yData1 = [];
+        var xData2 = [];
+        var yData2 = [];
+        
+        // Заполняем массивы данными для первой функции
+        for (var x = -2; x <= 2; x += 0.1) {
+            xData1.push(x);
+            yData1.push(f1(x));
+        }
+        
+        // Заполняем массивы данными для второй функции
+        for (var x = -2; x <= 2; x += 0.1) {
+            xData2.push(x);
+            yData2.push(f2(x));
+        }
+        
+        // Создаем новые графики
+        var chart1 = new Chart(document.getElementById('chart1').getContext('2d'), {
+            type: 'line',
+            data: {
+                labels: xData1,
+                datasets: [{
+                    label: 'График функции y = cos(x^2) - 2',
+                    data: yData1,
+                    backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                    borderColor: 'rgba(255, 99, 132, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+        
+        var chart2 = new Chart(document.getElementById('chart2').getContext('2d'), {
+            type: 'line',
+            data: {
+                labels: xData2,
+                datasets: [{
+                    label: 'График функции y = |x^3 + x - 10|',
+                    data: yData2,
+                    backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    </script>
+		</div>
+		<div class="tasks">
+			<h3>График функции.</h3>
+            <canvas id="chart3D"></canvas>
+    <script>
+        // Получаем ссылку на элемент canvas
+        var ctx = document.getElementById('chart3D').getContext('2d');
+
+        // Определяем функции, описывающие поверхности
+        function surface1(x, y) {
+            return Math.sqrt(6 - x * x - y * y); // -x^2 + y^2 + z^2 = 6
+        }
+
+        function surface2(x, y) {
+            return Math.sqrt((12 - x * x - y * y) / 2); // x^2 + y^2 + 2z^2 = 12
+        }
+
+        // Создаем массивы для данных x, y и z
+        var xData = [];
+        var yData = [];
+        var zData1 = [];
+        var zData2 = [];
+
+        // Заполняем массивы данными
+        for (var x = -1; x <= 1; x += 0.1) {
+            for (var y = -1; y <= 1; y += 0.1) {
+                xData.push(x);
+                yData.push(y);
+                zData1.push(surface1(x, y));
+                zData2.push(surface2(x, y));
+            }
+        }
+
+        // Создаем новые графики
+        var chart3D = new Chart(ctx, {
+            type: 'scatter',
+            data: {
+                datasets: [
+                    {
+                        label: '-x^2 + y^2 + z^2 = 6',
+                        data: xData.map((value, index) => ({x: value, y: yData[index], z: zData1[index]})),
+                        backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                        borderColor: 'rgba(255, 99, 132, 1)',
+                        pointRadius: 3,
+                        pointHoverRadius: 5,
+                    },
+                    {
+                        label: 'x^2 + y^2 + 2z^2 = 12',
+                        data: xData.map((value, index) => ({x: value, y: yData[index], z: zData2[index]})),
+                        backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                        borderColor: 'rgba(54, 162, 235, 1)',
+                        pointRadius: 3,
+                        pointHoverRadius: 5,
+                    }
+                ]
+            },
+            options: {
+                scales: {
+                    x: {
+                        type: 'linear',
+                        position: 'bottom'
+                    },
+                    y: {
+                        type: 'linear',
+                        position: 'left'
+                    },
+                    z: {
+                        type: 'linear',
+                        position: 'bottom'
+                    }
+                }
+            }
+        });
+    </script>
+		</div>
+		<footer class="footer">
+			
+		</footer>
+	</div>
+</body>
+</html>
